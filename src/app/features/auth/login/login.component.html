@@ -1,0 +1,53 @@
+<div class="login-page">
+  <div class="login-container">
+
+    <div class="logo-box">
+      <div class="logo">
+<img src="assets/logo.png" width="120" height="120" alt="logo">      </div>
+    </div>
+
+    <div class="login-card">
+      <h1>Bienvenue</h1>
+      <p>Accédez à votre console sécurisée Bontaz</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="field">
+          <label>Identifiant</label>
+          <div class="input-box">
+            <span class="icon">👤</span>
+            <input type="email" formControlName="username" placeholder="nom@bontaz.com" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Mot de passe</label>
+          <div class="input-box">
+            <span class="icon">🔑</span>
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••">
+            <span class="eye" (click)="showPassword = !showPassword">
+              {{ showPassword ? '◌' : '●' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="options">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" style="accent-color: var(--primary);"> 
+            Se souvenir
+          </label>
+          <a href="#">Oublié ?</a>
+        </div>
+
+        <div *ngIf="errorMessage" class="error">
+           {{ errorMessage }}
+        </div>
+
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Authentification...' : 'Continuer' }}
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #01161a;
+  background: linear-gradient(135deg, #ffffff, #ffffff, #2c5364);
+}
+
+/* Page */
+.login-page {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  align-items: flex-start;
+  padding-top: 80px;
+}
+
+/* Container */
+.login-container {
+  width: 100%;
+  max-width: 900px; 
+  padding: 20px;
+}
+
+/* Logo */
+.logo-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+.logo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  width: 62px;
+  height: 62px;
+  border-radius: 8px;
+  background: #011822;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  font-weight: bold;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Card */
+.login-card {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 6px;
+  color: rgb(122, 154, 160);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.login-card h1 {
+  text-align: center;
+  font-size: 80px;
+}
+
+.login-card p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #062e3f;
+}
+.logo img {
+  width: 500%;
+  height: 5000%;
+  object-fit: contain;
+}
+
+/* Fields */
+.field {
+  margin-bottom: 30px;
+}
+
+.field label {
+  font-size: 19px;
+  color: #00070e;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  background: rgba(3, 43, 59, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 6px;
+}
+
+.input-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgb(2, 42, 48);
+  padding: 18px;
+  font-size: 20px;
+}
+
+.icon {
+  margin-right: 20px;
+}
+
+.eye {
+  cursor: pointer;
+}
+
+/* Options */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.options a {
+  color: #022433;
+  text-decoration: none;
+}
+
+/* Error */
+.error {
+  background: rgba(255,0,0,0.2);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #012738, #012738);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 25px;
+  }
+}
