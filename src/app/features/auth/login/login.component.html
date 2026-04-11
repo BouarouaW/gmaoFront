@@ -1,9 +1,9 @@
 <div class="login-page">
   <div class="login-container">
-
     <div class="logo-box">
       <div class="logo">
-<img src="assets/logo.png" width="120" height="120" alt="logo">      </div>
+        <img src="assets/logo.png" width="120" height="120" alt="logo">
+      </div>
     </div>
 
     <div class="login-card">
@@ -11,12 +11,18 @@
       <p>Accédez à votre console sécurisée Bontaz</p>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
         <div class="field">
-          <label>Identifiant</label>
+          <label>Email</label>
           <div class="input-box">
-            <span class="icon">👤</span>
-            <input type="email" formControlName="username" placeholder="nom@bontaz.com" autocomplete="off">
+            <span class="icon">📧</span>
+            <input 
+              type="email" 
+              formControlName="email" 
+              placeholder="nom@bontaz.com" 
+              autocomplete="off">
+          </div>
+          <div class="field-error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+            Email requis
           </div>
         </div>
 
@@ -24,10 +30,16 @@
           <label>Mot de passe</label>
           <div class="input-box">
             <span class="icon">🔑</span>
-            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••">
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              formControlName="password" 
+              placeholder="••••••••">
             <span class="eye" (click)="showPassword = !showPassword">
-              {{ showPassword ? '◌' : '●' }}
+              {{ showPassword ? '🐵' : ' 🙈' }}
             </span>
+          </div>
+          <div class="field-error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Mot de passe requis (min 6 caractères)
           </div>
         </div>
 
@@ -36,17 +48,16 @@
             <input type="checkbox" style="accent-color: var(--primary);"> 
             Se souvenir
           </label>
-          <a href="#">Oublié ?</a>
+          <a href="#">Mot de passe oublié ?</a>
         </div>
 
-        <div *ngIf="errorMessage" class="error">
-           {{ errorMessage }}
+        <div *ngIf="errorMessage" class="error-message">
+          ⚠️ {{ errorMessage }}
         </div>
 
-        <button type="submit" [disabled]="loading">
-          {{ loading ? 'Authentification...' : 'Continuer' }}
+        <button type="submit" [disabled]="loading" class="btn-login">
+          {{ loading ? '⏳ Authentification...' : '🔐 Continuer' }}
         </button>
-
       </form>
     </div>
   </div>
