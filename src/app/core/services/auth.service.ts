@@ -1,3 +1,4 @@
+// src/app/core/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -26,7 +27,9 @@ interface User {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  // ✅ UTILISE L'URL ABSOLUE VERS LE BACKEND
   private apiUrl = 'http://localhost:8081/api/auth';
+  private usersApiUrl = 'http://localhost:8081/api/users';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -53,6 +56,7 @@ export class AuthService {
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     console.log('AuthService - Tentative de login avec:', credentials.email);
+    console.log('URL appelée:', `${this.apiUrl}/login`);
     
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
@@ -85,6 +89,8 @@ export class AuthService {
           errorMessage = 'Compte désactivé';
         } else if (error.status === 0) {
           errorMessage = 'Serveur indisponible. Vérifie que le backend tourne sur http://localhost:8081';
+        } else if (error.status === 404) {
+          errorMessage = 'Endpoint non trouvé. Vérifie que le backend est bien démarré sur le port 8081';
         }
         
         return throwError(() => ({ status: error.status, message: errorMessage }));
@@ -119,14 +125,12 @@ export class AuthService {
     return localStorage.getItem('userName');
   }
 
-  // ✅ AJOUTER CETTE MÉTHODE (manquante)
   getCurrentUser(): User | null {
     return this.currentUserSubject.value;
   }
 
-  // ✅ AJOUTER CETTE MÉTHODE (pour récupérer l'utilisateur depuis l'API)
   fetchCurrentUser(): Observable<User> {
-    return this.http.get<User>('http://localhost:8081/api/users/me').pipe(
+    return this.http.get<User>(`${this.usersApiUrl}/me`).pipe(
       tap(user => {
         this.currentUserSubject.next(user);
         localStorage.setItem('userName', user.username);

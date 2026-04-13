@@ -1,0 +1,106 @@
+<!-- src/app/features/admin/user-list/user-list.component.html -->
+<div class="user-list-container">
+  <div class="header">
+    <h2>Gestion des utilisateurs</h2>
+    <button class="btn-primary" routerLink="/admin/users/new">+ Nouvel utilisateur</button>
+  </div>
+
+  <!-- Filtres -->
+  <div class="filters">
+    <div class="filter-group">
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (ngModelChange)="filterUsers()"
+        placeholder="Rechercher..."
+        class="search-input">
+    </div>
+    
+    <div class="filter-group">
+      <select [(ngModel)]="roleFilter" (ngModelChange)="filterUsers()" class="filter-select">
+        <option value="">Tous les rôles</option>
+        <option value="ADMIN">Administrateur</option>
+        <option value="TECHNICIEN">Technicien</option>
+        <option value="USER">Utilisateur</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <select [(ngModel)]="statusFilter" (ngModelChange)="filterUsers()" class="filter-select">
+        <option value="">Tous les statuts</option>
+        <option value="true">Actif</option>
+        <option value="false">Inactif</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-badge">Total: {{ filteredUsers.length }}</div>
+    <div class="stat-badge active">Actifs: {{ activeCount }}</div>
+    <div class="stat-badge inactive">Inactifs: {{ inactiveCount }}</div>
+  </div>
+
+  <!-- Tableau -->
+  <div class="table-container">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Username</th>
+          <th>Rôle</th>
+          <th>Téléphone</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of paginatedUsers">
+          <td>{{ user.nom }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.username }}</td>
+          <td>
+            <span [class]="'role-badge ' + user.role">
+              {{ getRoleLabel(user.role) }}
+            </span>
+          </td>
+          <td>{{ user.telephone || '-' }}</td>
+          <td>
+            <span [class]="'status-badge ' + (user.actif ? 'active' : 'inactive')">
+              {{ user.actif ? 'Actif' : 'Inactif' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-icon edit" [routerLink]="['/admin/users/edit', user.id]">✏️</button>
+            <button *ngIf="user.actif" class="btn-icon disable" (click)="desactiver(user.id)">🔒</button>
+            <button *ngIf="!user.actif" class="btn-icon enable" (click)="activer(user.id)">🔓</button>
+            <button class="btn-icon delete" (click)="deleteUser(user.id)">🗑️</button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredUsers.length === 0">
+          <td colspan="7" class="no-data">Aucun utilisateur trouvé</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">« Précédent</button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant »</button>
+  </div>
+
+  <!-- Modal de confirmation -->
+  <div class="modal" *ngIf="showDeleteModal">
+    <div class="modal-content">
+      <h3>Confirmer la suppression</h3>
+      <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="closeModal()">Annuler</button>
+        <button class="btn-danger" (click)="confirmDelete()">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>

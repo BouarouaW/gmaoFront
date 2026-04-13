@@ -61,20 +61,29 @@ export class UserFormComponent implements OnInit {
     return 'Fort';
   }
 
-  onSubmit(): void {
-    if (this.userForm.invalid) return;
-    this.loading = true;
-    const data = this.userForm.value;
-    if (this.isEditMode && this.userId) {
-      this.userService.updateUser(this.userId, data).subscribe({
-        next: () => this.router.navigate(['/admin/users']),
-        error: () => this.loading = false
-      });
-    } else {
-      this.userService.createUser(data).subscribe({
-        next: () => this.router.navigate(['/admin/users']),
-        error: () => this.loading = false
-      });
-    }
+ onSubmit(): void {
+  if (this.userForm.invalid) return;
+  this.loading = true;
+  const data = this.userForm.value;
+  console.log('📤 Données envoyées:', data); // ← AJOUTE CETTE LIGNE
+  
+  if (this.isEditMode && this.userId) {
+    this.userService.updateUser(this.userId, data).subscribe({
+      next: () => this.router.navigate(['/admin/users']),
+      error: (err) => {
+        console.error('❌ Erreur:', err);
+        this.loading = false;
+      }
+    });
+  } else {
+    this.userService.createUser(data).subscribe({
+      next: () => this.router.navigate(['/admin/users']),
+      error: (err) => {
+        console.error('❌ Erreur création:', err);
+        console.error('📝 Réponse erreur:', err.error);
+        this.loading = false;
+      }
+    });
   }
+}
 }
