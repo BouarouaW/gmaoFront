@@ -1,0 +1,80 @@
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.sidebar {
+  width: 260px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255,255,255,0.12);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.logo img {
+  border-radius: 8px;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+nav a mat-icon {
+  font-size: 20px;
+}
+
+nav a:hover, nav a.active {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.user-info {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: white;
+}
+
+.user-info span {
+  display: block;
+}
+
+.user-info .role {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-x: auto;
+  background: radial-gradient(circle at top, #f8f9fa, transparent 50%),
+              radial-gradient(circle at bottom, #ffffff, #e9ecef);
+}

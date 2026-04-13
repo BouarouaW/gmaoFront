@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+
+  <div class="welcome-card">
+    <h1>Bienvenue, {{ username }} !</h1>
+    <p>Vous êtes connecté en tant que <strong>{{ roleLabel }}</strong></p>
+  </div>
+
+  <div class="stats-grid">
+
+    <!-- Carte Profil -->
+    <div class="stat-card">
+      <div class="stat-icon">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3>Mon profil</h3>
+        <p>{{ username }}</p>
+        <a routerLink="/profile">Voir mon profil →</a>
+      </div>
+    </div>
+
+    <!-- Carte Utilisateurs (visible seulement pour l'admin) -->
+    <div class="stat-card" *ngIf="isAdmin">
+      <div class="stat-icon">
+        <mat-icon>people</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3>Utilisateurs</h3>
+        <p>Gérer les comptes</p>
+        <a routerLink="/admin/users">Gérer →</a>
+      </div>
+    </div>
+
+    <!-- Carte Interventions -->
+    <div class="stat-card">
+      <div class="stat-icon">
+        <mat-icon>build</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3>Interventions</h3>
+        <p>À venir...</p>
+      </div>
+    </div>
+
+  </div>
+</div>

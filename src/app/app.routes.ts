@@ -1,26 +1,53 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { authGuard, AdminGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './features/layout/layout.component';
 
 export const routes: Routes = [
-  { path: 'login', loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent) },
+  {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
+  },
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [authGuard],
+   // canActivate: [authGuard],
     children: [
-      { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-      { path: 'profile', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent)
+      },
       {
         path: 'admin',
         canActivate: [AdminGuard],
         children: [
-          { path: 'users', loadComponent: () => import('./features/admin/user-list/user-list.component').then(m => m.UserListComponent) },
-          { path: 'users/new', loadComponent: () => import('./features/admin/user-form/user-form.component').then(m => m.UserFormComponent) },
-          { path: 'users/edit/:id', loadComponent: () => import('./features/admin/user-form/user-form.component').then(m => m.UserFormComponent) }
+          {
+            path: 'users',
+            loadComponent: () => import('./features/admin/user-list/user-list.component').then(m => m.UserListComponent)
+          },
+          {
+            path: 'users/new',
+            loadComponent: () => import('./features/admin/user-form/user-form.component').then(m => m.UserFormComponent)
+          },
+          {
+            path: 'users/edit/:id',
+            loadComponent: () => import('./features/admin/user-form/user-form.component').then(m => m.UserFormComponent)
+          }
         ]
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
       }
     ]
   },
-  { path: '**', redirectTo: 'dashboard' }
+  {
+    path: '**',
+    redirectTo: 'dashboard'
+  }
 ];

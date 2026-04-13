@@ -1,64 +1,97 @@
 <div class="login-page">
   <div class="login-container">
+
+    <!-- LOGO -->
     <div class="logo-box">
       <div class="logo">
-        <img src="assets/logo.png" width="120" height="120" alt="logo">
+        <img src="assets/logo.png" width="90" height="90" alt="logo">
       </div>
     </div>
 
+    <!-- CARD -->
     <div class="login-card">
+
       <h1>Bienvenue</h1>
-      <p>Accédez à votre console sécurisée Bontaz</p>
+      <p>Accédez à votre console sécurisée</p>
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <!-- EMAIL -->
         <div class="field">
           <label>Email</label>
+
           <div class="input-box">
-            <span class="icon">📧</span>
-            <input 
-              type="email" 
-              formControlName="email" 
-              placeholder="nom@bontaz.com" 
-              autocomplete="off">
+            <span class="icon">
+              <mat-icon>mail</mat-icon>
+            </span>
+
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="nom@bontaz.com"
+              autocomplete="off"
+            >
           </div>
-          <div class="field-error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+
+          <div class="field-error"
+               *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
             Email requis
           </div>
         </div>
 
+        <!-- PASSWORD -->
         <div class="field">
           <label>Mot de passe</label>
+
           <div class="input-box">
-            <span class="icon">🔑</span>
-            <input 
-              [type]="showPassword ? 'text' : 'password'" 
-              formControlName="password" 
-              placeholder="••••••••">
+            <span class="icon">
+              <mat-icon>lock</mat-icon>
+            </span>
+
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+            >
+
             <span class="eye" (click)="showPassword = !showPassword">
-              {{ showPassword ? '🐵' : ' 🙈' }}
+              <mat-icon>
+                {{ showPassword ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
             </span>
           </div>
-          <div class="field-error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+
+          <div class="field-error"
+               *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
             Mot de passe requis (min 6 caractères)
           </div>
         </div>
 
+        <!-- OPTIONS -->
         <div class="options">
-          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-            <input type="checkbox" style="accent-color: var(--primary);"> 
-            Se souvenir
+          <label class="remember">
+            <input type="checkbox">
+            Se souvenir de moi
           </label>
+
           <a href="#">Mot de passe oublié ?</a>
         </div>
 
-        <div *ngIf="errorMessage" class="error-message">
-          ⚠️ {{ errorMessage }}
+        <!-- ERROR -->
+        <div class="error" *ngIf="errorMessage">
+          <mat-icon>error</mat-icon>
+          {{ errorMessage }}
         </div>
 
-        <button type="submit" [disabled]="loading" class="btn-login">
-          {{ loading ? '⏳ Authentification...' : '🔐 Continuer' }}
+        <!-- BUTTON -->
+        <button type="submit" [disabled]="loading">
+          <mat-icon>login</mat-icon>
+
+          {{ loading ? 'Authentification...' : 'Continuer' }}
         </button>
+
       </form>
+
     </div>
   </div>
 </div>

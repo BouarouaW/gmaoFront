@@ -1,64 +1,53 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/auth.service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { AuthService, LoginResponse } from '../../../core/services/auth.service';   // ← chemin corrigé
+import { HttpErrorResponse } from '@angular/common/http';  // pour typer l'erreur
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatIconModule],
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage = '';
-  loading = false;
   showPassword = false;
+  loading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private router: Router,
-    private cdr: ChangeDetectorRef   // ← Injection du détecteur
+    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  ngOnInit(): void {}
-
-  onSubmit(): void {
-    this.errorMessage = '';
+  onSubmit() {
     if (this.loginForm.invalid) {
-      // Gestion des erreurs de validation
-      if (this.loginForm.get('email')?.invalid) {
-        this.errorMessage = 'Email valide requis';
-      } else if (this.loginForm.get('password')?.invalid) {
-        this.errorMessage = 'Mot de passe requis (min 4 caractères)';
-      }
-      this.cdr.detectChanges(); // Force l'affichage immédiat
+      this.loginForm.markAllAsTouched();
       return;
     }
 
     this.loading = true;
-    const credentials = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    };
+    this.errorMessage = '';
 
-    this.authService.login(credentials).subscribe({
-      next: (response) => {
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response: LoginResponse) => {          // ← typé correctement
         this.loading = false;
+        console.log('Login OK', response);
         this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {          // ← typé correctement
         this.loading = false;
-        this.errorMessage = err.message || 'Identifiants incorrects';
-        console.log('Message d\'erreur:', this.errorMessage);
-        this.cdr.detectChanges(); // ← FORCE LA MISE À JOUR DE LA PAGE
+        this.errorMessage = err.error?.message || 'Erreur de connexion';
       }
     });
   }

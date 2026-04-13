@@ -1,0 +1,32 @@
+<div class="layout-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="Logo" width="40" height="40">
+      <span>GMAO Bontaz</span>
+    </div>
+    <nav>
+      <a routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon> Tableau de bord
+      </a>
+      <a *ngIf="isAdmin" routerLink="/admin/users" routerLinkActive="active">
+        <mat-icon>people</mat-icon> Utilisateurs
+      </a>
+      <a routerLink="/profile" routerLinkActive="active">
+        <mat-icon>account_circle</mat-icon> Mon profil
+      </a>
+      <a (click)="logout()">
+        <mat-icon>logout</mat-icon> Déconnexion
+      </a>
+    </nav>
+    <div class="user-info">
+      <span>{{ username }}</span>
+      <span class="role">{{ roleLabel }}</span>
+    </div>
+  </aside>
+
+  <!-- Contenu principal -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
